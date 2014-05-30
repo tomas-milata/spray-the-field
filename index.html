@@ -1,15 +1,26 @@
 <!doctype html>
 <html>
-<body>
+<head>
 	<meta charset="utf-8"/>
+</head>
+
+
+<script src="game.js"></script>
+<script src="graphics.js"></script>
+<script src="sprayer.js"></script>
+
+<body>
+
 	<h1>Spray the Field!</h1>
-	<script src="game.js"></script>
-	<script src="graphics.js"></script>
+
+	<div id='loading'>loading...</div>
+
 	<canvas width=600 height=600></canvas>
 
 	<script>
-		new Game().init()
-		
+		var g = new Game()
+		g.init()
+
 	</script>
 </body>
 </html>

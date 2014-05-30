@@ -11,9 +11,9 @@ var Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed) {
   this.MIN_SPEED = minSpeed
   this.MAX_ANGLE_SPEED = maxAngleSpeed
   this.ACCELERATION = 0.001
-  this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 1000
+  this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 100
   this.CONSTANT_DECELERATION = 0.0005
-  this.ANGLE_CONSTANT_DECELERATION = this.ANGLE_ACCELERATION / 100000000
+  this.CONSTANT_ANGLE_DECELERATION = this.ANGLE_ACCELERATION
 }
 
 var RedSprayer = function(image) {
