@@ -1,0 +1,15 @@
+body {
+    background-color: green
+}
+
+nav {
+    background-color: brown
+}
+
+div:not(:target) {
+    display: none
+}
+
+a.active_tab {
+    background-color: yellow
+}
