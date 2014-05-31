@@ -6,7 +6,7 @@ nav {
     background-color: brown
 }
 
-div:not(:target) {
+body > div:not(:target) {
     display: none
 }
 
