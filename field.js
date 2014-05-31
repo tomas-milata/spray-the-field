@@ -1,7 +1,9 @@
 var Field = function(file) {
     this.cells = this._load(file)
     this.images = null
+    this.CELL_SIZE = 15
 }
+
 
 Field.prototype._load = function(file) {
     // TODO

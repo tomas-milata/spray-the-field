@@ -56,7 +56,7 @@ Game.prototype.init = function() {
 			covered : images[5],
 			resprayed : images[6]
 		}
-		this._graphics.sprayer = this._sprayer = this._sprayers.red
+		this._graphics.sprayer = this._sprayer = this._sprayers.blue
 
 		this.initialized()
 	}.bind(this)) // binds 'then' callback to this (Game)
@@ -161,17 +161,26 @@ Game.prototype._loop = function() {
 	this._sprayer.x += Math.sin(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.angle += dt * this._sprayer.angleSpeed
 
+	console.log(this._sprayer.angle)
+
 	setTimeout(this._loop.bind(this), 20)
 	requestAnimationFrame(this._graphics.draw.bind(this._graphics))
 }
 
 Game.prototype._spray = function() {
-	var i = Math.floor(this._sprayer.x / this._graphics.CELL_SIZE)
-	var j = Math.floor(this._sprayer.y / this._graphics.CELL_SIZE)
+	for (var jet = 0; jet < this._sprayer.jets.length; ++jet) {
 
-	if (this._cellInidicesOutOfRange(i, j))
-		return
+		var coords = this._sprayer.jetCoords(jet, this._field.CELL_SIZE)
 
+		var i = Math.floor(coords.x / this._field.CELL_SIZE)
+		var j = Math.floor(coords.y / this._field.CELL_SIZE)
+
+		if (!this._cellInidicesOutOfRange(i, j))
+			this._sprayCell(i, j)
+	}
+}
+
+Game.prototype._sprayCell = function(i, j) {
 	var c = this._field.cells[i][j]
 	var now = Date.now()
 	if (c.covered != -1) {

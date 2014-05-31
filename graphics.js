@@ -1,7 +1,6 @@
 var Graphics = function() {
     this.sprayer = null
     this.field = null
-    this.CELL_SIZE = 10
 }
 
 Graphics.prototype.init = function() {
@@ -47,10 +46,10 @@ Graphics.prototype._drawField = function() {
 }
 
 Graphics.prototype._drawCell = function(i, j, image) {
-    var x = i * this.CELL_SIZE
-    var y = j * this.CELL_SIZE
+    var x = i * this.field.CELL_SIZE
+    var y = j * this.field.CELL_SIZE
 
     this._ctx.drawImage(image,
-        x, y, this.CELL_SIZE, this.CELL_SIZE,
-        x, y, this.CELL_SIZE, this.CELL_SIZE)
+        x, y, this.field.CELL_SIZE, this.field.CELL_SIZE,
+        x, y, this.field.CELL_SIZE, this.field.CELL_SIZE)
 }
