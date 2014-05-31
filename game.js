@@ -1,9 +1,8 @@
-var Game = function() {
+var Game = function(field, sprayer) {
 	this._graphics = new Graphics()
 
-	this._sprayers = null
-	this._field = new Field()
-	this._graphics.field = this._field
+	this._sprayer = this._graphics.sprayer = sprayer
+	this._graphics.field = this._field = field
 
 	this._leftPressed = false
 	this._rightPressed = false
@@ -17,54 +16,11 @@ var Game = function() {
 }
 
 Game.prototype.init = function() {
-	this._graphics.init()
 
 	// The sprayer should go across the whole field with same time regardless
 	// of its pixel size
 	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 4000
 
-	var loadImage = function(url) {
-		return new Promise(function(resolve, reject) {
-			var img = new Image()
-			img.onload = function() {
-				resolve(img)
-			}
-			img.src = url
-		})
-	}
-
-	var imagePromises = [
-		'img/sprayer_red.png',
-		'img/sprayer_green.png',
-		'img/sprayer_blue.png',
-		'img/brown.png',
-		'img/green.png',
-		'img/yellow.png',
-		'img/red.png'
-	].map(loadImage)
-
-	Promise.all(imagePromises).then(function(images) {
-		this._sprayers = {
-			red: new RedSprayer(images[0]),
-			green: new GreenSprayer(images[1]),
-			blue: new BlueSprayer(images[2])
-		}
-
-		this._field.images = {
-			outside : images[3],
-			uncovered : images[4],
-			covered : images[5],
-			resprayed : images[6]
-		}
-		this._graphics.sprayer = this._sprayer = this._sprayers.blue
-
-		this.initialized()
-	}.bind(this)) // binds 'then' callback to this (Game)
-}
-
-Game.prototype.initialized = function() {
-	document.getElementById('loading').innerHTML = ''
-	this.play()
 }
 
 Game.prototype.play = function() {
@@ -160,8 +116,6 @@ Game.prototype._loop = function() {
 	this._sprayer.y -= Math.cos(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.x += Math.sin(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.angle += dt * this._sprayer.angleSpeed
-
-	console.log(this._sprayer.angle)
 
 	setTimeout(this._loop.bind(this), 20)
 	requestAnimationFrame(this._graphics.draw.bind(this._graphics))

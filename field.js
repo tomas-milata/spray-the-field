@@ -1,6 +1,6 @@
-var Field = function(file) {
+var Field = function(images, file) {
     this.cells = this._load(file)
-    this.images = null
+    this.images = images
     this.CELL_SIZE = 15
 }
 

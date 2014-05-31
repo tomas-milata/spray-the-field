@@ -1,11 +1,9 @@
 var Graphics = function() {
     this.sprayer = null
     this.field = null
-}
 
-Graphics.prototype.init = function() {
-  this.canvas = document.querySelector("canvas")
-  this._ctx = this.canvas.getContext("2d")
+    this.canvas = document.querySelector("canvas")
+    this._ctx = this.canvas.getContext("2d")
 }
 
 Graphics.prototype.draw = function() {

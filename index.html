@@ -2,25 +2,51 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
+<header>
+	<h1>Spray the Field!</h1>
+</header>
 
+<nav>
+	<a href="#setup" class="active_tab">maps, vehicles &amp; setup</a>
+	<a href="#play">play</a>
+	<a href="#howto">how to play</a>
+	<a href="#about">about</a>
+</nav>
+
+<script src="gui.js"></script>
 <script src="field.js"></script>
 <script src="game.js"></script>
 <script src="graphics.js"></script>
 <script src="sprayer.js"></script>
+<script src="setup.js"></script>
 
 <body>
 
 	<!-- <h1>Spray the Field!</h1> -->
 
-	<div id='loading'>loading...</div>
+	<div id="loading">loading...</div>
 
-	<canvas width=600 height=600></canvas>
+	<div id="setup">
+		setup
+	</div>
+
+	<div id="play">
+		<canvas width=600 height=600></canvas>
+	</div>
+
+	<div id="howto">
+		how to
+	</div>
+
+	<div id="about">
+		about
+	</div>
 
 	<script>
-		var g = new Game()
-		g.init()
+		new Setup().load()
 
 	</script>
 </body>
