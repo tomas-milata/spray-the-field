@@ -1,6 +1,10 @@
 var Game = function() {
 	this._graphics = new Graphics()
 
+	this._sprayers = null
+	this._field = new Field()
+	this._graphics.field = this._field
+
 	this._leftPressed = false
 	this._rightPressed = false
 	this._upPressed = false
@@ -9,6 +13,7 @@ var Game = function() {
 	this._lastUpdated = null
 
 	this.PIX_PER_MS = null
+	this.MAX_NOT_RESPRAYED_DELAY = 100
 }
 
 Game.prototype.init = function() {
@@ -31,7 +36,11 @@ Game.prototype.init = function() {
 	var imagePromises = [
 		'img/sprayer_red.png',
 		'img/sprayer_green.png',
-		'img/sprayer_blue.png'
+		'img/sprayer_blue.png',
+		'img/brown.png',
+		'img/green.png',
+		'img/yellow.png',
+		'img/red.png'
 	].map(loadImage)
 
 	Promise.all(imagePromises).then(function(images) {
@@ -41,6 +50,12 @@ Game.prototype.init = function() {
 			blue: new BlueSprayer(images[2])
 		}
 
+		this._field.images = {
+			outside : images[3],
+			uncovered : images[4],
+			covered : images[5],
+			resprayed : images[6]
+		}
 		this._graphics.sprayer = this._sprayer = this._sprayers.red
 
 		this.initialized()
@@ -54,7 +69,7 @@ Game.prototype.initialized = function() {
 
 Game.prototype.play = function() {
 	this._lastUpdated = Date.now()
-	this.loop()
+	this._loop()
 
 	window.addEventListener("keydown", function (event) {
 		switch (event.keyCode) {
@@ -95,10 +110,12 @@ Game.prototype.play = function() {
 	}.bind(this)) // binds listener to this (Game)
 }
 
-Game.prototype.loop = function() {
+Game.prototype._loop = function() {
 	var now = Date.now()
 	var dt = now - this._lastUpdated
 	this._lastUpdated = now
+
+	this._spray()
 
 	if (this._upPressed) {
 		this._sprayer.speed += dt * this._sprayer.ACCELERATION
@@ -144,6 +161,28 @@ Game.prototype.loop = function() {
 	this._sprayer.x += Math.sin(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.angle += dt * this._sprayer.angleSpeed
 
-	setTimeout(this.loop.bind(this), 20)
-	requestAnimationFrame(this._graphics.drawSprayer.bind(this._graphics))
+	setTimeout(this._loop.bind(this), 20)
+	requestAnimationFrame(this._graphics.draw.bind(this._graphics))
+}
+
+Game.prototype._spray = function() {
+	var i = Math.floor(this._sprayer.x / this._graphics.CELL_SIZE)
+	var j = Math.floor(this._sprayer.y / this._graphics.CELL_SIZE)
+
+	if (this._cellInidicesOutOfRange(i, j))
+		return
+
+	var c = this._field.cells[i][j]
+	var now = Date.now()
+	if (c.covered != -1) {
+		if (now - c.timestamp > this.MAX_NOT_RESPRAYED_DELAY) {
+			c.covered++
+		}
+		c.timestamp = now
+	}
+}
+
+Game.prototype._cellInidicesOutOfRange = function(i, j) {
+	var size = this._field.cells.length
+	return i < 0 || j < 0 || i >= size || j >= size
 }
