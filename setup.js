@@ -1,6 +1,7 @@
 var Setup = function() {
     this._sprayers = null
     this._fieldImages = null
+    this.fields = {}
 }
 
 Setup.prototype.load = function() {
@@ -15,6 +16,20 @@ Setup.prototype.load = function() {
         })
     }
 
+    var loadMap = function(url) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest()
+            xhr.open("GET", url)
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.response)
+                    resolve(xhr.response)
+                }
+            }
+            xhr.send()
+        })
+    }
+
     var imagePromises = [
         'img/sprayer_red.png',
         'img/sprayer_green.png',
@@ -25,19 +40,25 @@ Setup.prototype.load = function() {
         'img/red.png'
     ].map(loadImage)
 
-    Promise.all(imagePromises).then(function(images) {
+    var mapPromises = [
+        'maps/beginners_luck.txt'
+    ].map(loadMap)
+
+    Promise.all(imagePromises.concat(mapPromises)).then(function(result) {
         this._sprayers = {
-            red: new RedSprayer(images[0]),
-            green: new GreenSprayer(images[1]),
-            blue: new BlueSprayer(images[2])
+            red: new RedSprayer(result[0]),
+            green: new GreenSprayer(result[1]),
+            blue: new BlueSprayer(result[2])
         }
 
         this._fieldImages = {
-            outside : images[3],
-            uncovered : images[4],
-            covered : images[5],
-            resprayed : images[6]
+            outside : result[3],
+            uncovered : result[4],
+            covered : result[5],
+            resprayed : result[6]
         }
+
+        this.fields.beginnersLuck = new Field(this._fieldImages, result[7])
 
         setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout
     }.bind(this)) // binds 'then' callback to this
@@ -45,7 +66,7 @@ Setup.prototype.load = function() {
 
 Setup.prototype._initialized = function() {
     document.getElementById('loading').innerHTML = ''
-    var g = new Game(new Field(this._fieldImages), this._sprayers.blue)
+    var g = new Game(this.fields.beginnersLuck, this._sprayers.blue)
     g.init()
     g.play()
 }
