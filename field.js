@@ -13,7 +13,8 @@ Field.prototype._load = function(file) {
         for (var j = 0; j < 60; j++) {
             cells[i][j] = {covered: 0, timestamp: 0}
         }
+        cells[i][0] = {covered: -1, timestamp: 0}
     }
-    cells[10][10] = 1
+    cells[10][10] = {covered: 1, timestamp: 0}
     return cells
 }

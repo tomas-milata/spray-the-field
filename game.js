@@ -45,6 +45,10 @@ Game.prototype.play = function() {
 			this._upPressed = false
 			this._downPressed = true
 			break
+		default:
+			if (event.keyCode >= 49 && event.keyCode <= 55) // 49 is "1" key
+				this._sprayer.toggleJet(event.keyCode - 49)
+			break
 		}
 	}.bind(this)) // binds listener to this (Game)
 
@@ -124,13 +128,15 @@ Game.prototype._loop = function() {
 Game.prototype._spray = function() {
 	for (var jet = 0; jet < this._sprayer.jets.length; ++jet) {
 
-		var coords = this._sprayer.jetCoords(jet, this._field.CELL_SIZE)
+		if (this._sprayer.jets[jet]) { // jet is on
+			var coords = this._sprayer.jetCoords(jet, this._field.CELL_SIZE)
 
-		var i = Math.floor(coords.x / this._field.CELL_SIZE)
-		var j = Math.floor(coords.y / this._field.CELL_SIZE)
+			var i = Math.floor(coords.x / this._field.CELL_SIZE)
+			var j = Math.floor(coords.y / this._field.CELL_SIZE)
 
-		if (!this._cellInidicesOutOfRange(i, j))
-			this._sprayCell(i, j)
+			if (!this._cellInidicesOutOfRange(i, j))
+				this._sprayCell(i, j)
+		}
 	}
 }
 

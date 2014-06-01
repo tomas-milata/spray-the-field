@@ -34,6 +34,12 @@ Sprayer.prototype.jetCoords = function(i, cellSize) {
     }
 }
 
+Sprayer.prototype.toggleJet = function(jetNo) {
+    jetNo = this.jets.length - jetNo - 1 // left to right
+    if (jetNo >= 0 && jetNo < this.jets.length)
+        this.jets[jetNo] = !this.jets[jetNo]
+}
+
 var RedSprayer = function(image) {
     Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 4, 15)
 }

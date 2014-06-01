@@ -39,7 +39,7 @@ Setup.prototype.load = function() {
             resprayed : images[6]
         }
 
-        this._initialized()
+        setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout
     }.bind(this)) // binds 'then' callback to this
 }
 
