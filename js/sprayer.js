@@ -46,15 +46,15 @@ stf.Sprayer.prototype.toggleJet = function(jetNo) {
 }
 
 stf.RedSprayer = function(image) {
-    stf.Sprayer.call(this, image, 1.33, -0.2, Math.PI / 2000, 6, 15)
+    stf.Sprayer.call(this, image, 1.5, -0.2, Math.PI / 2000, 4, 15)
 }
 
 stf.GreenSprayer = function(image) {
-    stf.Sprayer.call(this, image, 0.8, -0.2, Math.PI / 2000, 10, 30)
+    stf.Sprayer.call(this, image, 0.75, -0.2, Math.PI / 2000, 8, 30)
 }
 
 stf.BlueSprayer = function(image) {
-    stf.Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 8, 15)
+    stf.Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 6, 15)
 }
 
 stf.RedSprayer.prototype = Object.create(stf.Sprayer.prototype)

@@ -1,8 +1,8 @@
 stf.Field = function(images, data) {
     this.images = images
 
-    this.CELL_SIZE = 10
-    this.MAX_NOT_RESPRAYED_DELAY = 100
+    this.CELL_SIZE = 15
+    this.MAX_NOT_RESPRAYED_DELAY = 1000
 
     this.coverage = 0
     this._coveredCells = 0
