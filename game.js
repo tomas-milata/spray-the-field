@@ -14,6 +14,8 @@ var Game = function(field, sprayer, updateCallback) {
 
     this._updateCallback = updateCallback
 
+    this.stopped = false
+
     this.RESPRAY_PENALTY = 100
 }
 
@@ -22,58 +24,57 @@ Game.prototype.init = function() {
 	// The sprayer should go across the whole field with same time regardless
 	// of its pixel size
 	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 8000
-
 }
 
 Game.prototype.play = function() {
 	this._lastUpdated = Date.now()
 	this._loop()
+}
 
-	window.addEventListener("keydown", function (event) {
-		switch (event.keyCode) {
-		case 37:
-			this._leftPressed = true
-			this._rightPressed = false
-			break
-		case 38:
-			this._upPressed = true
-			this._downPressed = false
-			break
-		case 39:
-			this._leftPressed = false
-			this._rightPressed = true
-			break
-		case 40:
-			this._upPressed = false
-			this._downPressed = true
-			break
-		default:
-			if (event.keyCode >= 49 && event.keyCode <= 58) // 49 is "1" key
-				this._sprayer.toggleJet(event.keyCode - 49)
-			break
-		}
-	}.bind(this)) // binds listener to this (Game)
+Game.prototype.onkeydown = function(event) {
+    switch (event.keyCode) {
+        case 37:
+            this._leftPressed = true
+            this._rightPressed = false
+            break
+        case 38:
+            this._upPressed = true
+            this._downPressed = false
+            break
+        case 39:
+            this._leftPressed = false
+            this._rightPressed = true
+            break
+        case 40:
+            this._upPressed = false
+            this._downPressed = true
+            break
+        default:
+            if (event.keyCode >= 49 && event.keyCode <= 58) // 49 is "1" key
+                this._sprayer.toggleJet(event.keyCode - 49)
+            break
+    }
+}
 
-	window.addEventListener("keyup", function (event) {
-		switch (event.keyCode) {
-		case 37:
-			this._leftPressed = false
-			break
-		case 38:
-			this._upPressed = false
-			break
-		case 39:
-			this._rightPressed = false
-			break
-		case 40:
-			this._downPressed = false
-			break
-		}
-	}.bind(this)) // binds listener to this (Game)
+Game.prototype.onkeyup = function(event) {
+    switch (event.keyCode) {
+        case 37:
+            this._leftPressed = false
+            break
+        case 38:
+            this._upPressed = false
+            break
+        case 39:
+            this._rightPressed = false
+            break
+        case 40:
+            this._downPressed = false
+            break
+    }
 }
 
 Game.prototype._finished = function() {
-    return this._timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
+    return this.stopped || this._timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
 }
 
 Game.prototype._loop = function() {

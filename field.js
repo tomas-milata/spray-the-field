@@ -1,28 +1,37 @@
-var Field = function(images, file) {
+var Field = function(images, data) {
     this.images = images
 
     this.CELL_SIZE = 10
     this.MAX_NOT_RESPRAYED_DELAY = 100
 
-    this.coverage = null
+    this.coverage = 0
     this._coveredCells = 0
-    this._cellsCount = null
+    this.cells = this._cloneCells(data.cells) // clone array
+    this._cellsCount = data.cellsCount
+    this.LIMIT_SECONDS = data.limitSeconds
+    this.LIMIT_COVERAGE = data.limitCoverage
+}
 
-    this._load(file)
+Field.prototype._cloneCells = function(cellData) {
+    var cells = new Array(cellData.length)
+    for (var i = 0; i < cellData.length; i++) {
+        cells[i] = new Array(cellData[i].length)
+        for (var j = 0; j < cellData[i].length; j++) {
+            var oldCell = cellData[i][j]
+            cells[i][j] = {covered: oldCell, timestamp: 0}
+        }
+    }
+    return cells
 }
 
 
-Field.prototype._load = function(file) {
+var FieldData = function(input) {
 
-    var lines = file.split('\n')
+    var lines = input.split('\n')
     var params = lines[0].split(' ')
 
     var rows = params[0]
     var cols = params[1]
-    this.LIMIT_SECONDS = params[2]
-    this.LIMIT_COVERAGE = params[3]
-
-    this._cellsCount = rows * cols
 
     var cells = new Array(rows)
 
@@ -32,13 +41,13 @@ Field.prototype._load = function(file) {
             var covered = -1
             if (lines[i + 1][j] == '|')
                 covered = 0
-            cells[i][j] = {covered: covered, timestamp: 0}
+            cells[i][j] = covered
         }
     }
 
-
-
-
+    this.limitSeconds = params[2]
+    this.limitCoverage = params[3]
+    this.cellsCount = rows * cols
     this.cells = cells
 }
 

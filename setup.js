@@ -1,15 +1,39 @@
 var Setup = function() {
     this._sprayers = null
     this._fieldImages = null
-    this.fields = null
+    this.fieldsData = null
+    this._selectedField = null
 
     this._gui = new GUI()
+
+    this._game = null
+
+
+    window.addEventListener("keydown", function (e) {
+        if (this._game) {
+            this._game.onkeydown(e)
+        }
+    }.bind(this))
+
+    window.addEventListener("keyup", function (e) {
+        if (this._game) {
+            this._game.onkeyup(e)
+        }
+    }.bind(this))
 
 }
 
 Setup.prototype.load = function() {
 
     this._gui.init()
+
+    this._gui.onFileDropped = function(input) {
+        this._selectedField = new FieldData(input)
+    }.bind(this)
+
+    this._gui.onGameStarted = function() {
+        this._startGame()
+    }.bind(this)
 
     var loadImage = function(url) {
         return new Promise(function(resolve, reject) {
@@ -65,12 +89,14 @@ Setup.prototype.load = function() {
             resprayed : result[6]
         }
 
-        this.fields = {
-            beginnersLuck: new Field(this._fieldImages, result[7]),
-            obstacle: new Field(this._fieldImages, result[8]),
-            rectangle: new Field(this._fieldImages, result[9]),
-            hardTime: new Field(this._fieldImages, result[10])
+        this.fieldsData = {
+            beginnersLuck: new FieldData(result[7]),
+            obstacle: new FieldData(result[8]),
+            rectangle: new FieldData(result[9]),
+            hardTime: new FieldData(result[10])
          }
+
+        this._selectedField = this.fieldsData.hardTime
 
         setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout
     }.bind(this)) // binds 'then' callback to this
@@ -78,8 +104,17 @@ Setup.prototype.load = function() {
 
 Setup.prototype._initialized = function() {
     document.getElementById('loading').innerHTML = ''
-    var g = new Game(this.fields.hardTime, this._sprayers.blue,
-        this._gui.onUpdate.bind(this._gui))
-    g.init()
-    g.play()
+}
+
+Setup.prototype._startGame = function() {
+    var field = new Field(this._fieldImages, this._selectedField);
+    var selectedSprayer = this._sprayers.blue
+    selectedSprayer.resetStartPosition()
+
+    if (this._game)
+        this._game.stopped = true
+
+    this._game = new Game(field, selectedSprayer, this._gui.onUpdate.bind(this._gui))
+    this._game.init()
+    this._game.play()
 }

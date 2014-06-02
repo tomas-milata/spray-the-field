@@ -2,6 +2,9 @@ var GUI = function() {
     this._timeLeft = null
     this._coverage = null
     this._coverageGoal = null
+
+    this.onFileDropped = null
+    this.onGameStarted = null
 }
 
 GUI.prototype.init = function() {
@@ -11,7 +14,10 @@ GUI.prototype.init = function() {
 
         var droppable = document.querySelector(".droppable")
         droppable.addEventListener('dragover', this._allowDrop)
-        droppable.addEventListener('drop', this._onDrop)
+        droppable.addEventListener('drop', this._onDrop.bind(this))
+
+        document.querySelector('a[href="#play"]').addEventListener('click',
+            this.onGameStarted)
 
         this._timeLeft = document.getElementById('time_left')
         this._coverage = document.getElementById('coverage')
@@ -38,9 +44,9 @@ GUI.prototype._onDrop = function(e) {
     var file = e.dataTransfer.files[0]
     var reader = new FileReader()
     reader.onload = function(event) {
-        console.log(event.target.result)
-    }
-    reader.readAsText(file);
+        this.onFileDropped(event.target.result)
+    }.bind(this)
+    reader.readAsText(file)
 }
 
 GUI.prototype.onUpdate = function(state) {

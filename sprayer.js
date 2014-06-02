@@ -1,24 +1,29 @@
 var Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     behindCenter) {
-  this.image = image
+    this.image = image
 
-  this.x = 100
-  this.y = 50
-  this.angle = 3
-  this.speed = 0
-  this.angleSpeed = 0
-  this.jets = Array(jetsCount)
-  for (var i = 0; i < jetsCount; ++i)
-      this.jets[i] = true
+    this.resetStartPosition()
 
-  this.MAX_SPEED = maxSpeed
-  this.MIN_SPEED = minSpeed
-  this.MAX_ANGLE_SPEED = maxAngleSpeed
-  this.ACCELERATION = 0.001
-  this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 100
-  this.CONSTANT_DECELERATION = 0.0005
-  this.CONSTANT_ANGLE_DECELERATION = this.ANGLE_ACCELERATION
-  this.BEHIND_CENTER = behindCenter
+    this.MAX_SPEED = maxSpeed
+    this.MIN_SPEED = minSpeed
+    this.MAX_ANGLE_SPEED = maxAngleSpeed
+    this.ACCELERATION = 0.001
+    this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 100
+    this.CONSTANT_DECELERATION = 0.0005
+    this.CONSTANT_ANGLE_DECELERATION = this.ANGLE_ACCELERATION
+    this.BEHIND_CENTER = behindCenter
+    this.JETS_COUNT = jetsCount
+}
+
+Sprayer.prototype.resetStartPosition = function() {
+    this.x = 100
+    this.y = 50
+    this.angle = 3
+    this.speed = 0
+    this.angleSpeed = 0
+    this.jets = new Array(this.JETS_COUNT)
+    for (var i = 0; i < this.JETS_COUNT; ++i)
+        this.jets[i] = true
 }
 
 Sprayer.prototype.jetCoords = function(i, cellSize) {
