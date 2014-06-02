@@ -5,6 +5,7 @@ var GUI = function() {
 
     this.onFileDropped = null
     this.onGameStarted = null
+    this.onVehicleSelected = null
 }
 
 GUI.prototype.init = function() {
@@ -18,6 +19,12 @@ GUI.prototype.init = function() {
 
         document.querySelector('a[href="#play"]').addEventListener('click',
             this.onGameStarted)
+
+        var vehicleInputs = document.querySelectorAll('input[name="vehicle"]')
+        for (var i = 0; i < vehicleInputs.length; i++)
+            vehicleInputs[i].addEventListener('change', function(e) {
+                this.onVehicleSelected(e.target.value)
+            }.bind(this))
 
         this._timeLeft = document.getElementById('time_left')
         this._coverage = document.getElementById('coverage')

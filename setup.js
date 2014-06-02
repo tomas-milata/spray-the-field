@@ -3,6 +3,7 @@ var Setup = function() {
     this._fieldImages = null
     this.fieldsData = null
     this._selectedField = null
+    this._selectedSprayer = null
 
     this._gui = new GUI()
 
@@ -33,6 +34,10 @@ Setup.prototype.load = function() {
 
     this._gui.onGameStarted = function() {
         this._startGame()
+    }.bind(this)
+
+    this._gui.onVehicleSelected = function(vehicle) {
+        this._selectedSprayer = this._sprayers[vehicle]
     }.bind(this)
 
     var loadImage = function(url) {
@@ -97,6 +102,7 @@ Setup.prototype.load = function() {
          }
 
         this._selectedField = this.fieldsData.hardTime
+        this._selectedSprayer = this._sprayers.blue
 
         setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout
     }.bind(this)) // binds 'then' callback to this
@@ -108,13 +114,13 @@ Setup.prototype._initialized = function() {
 
 Setup.prototype._startGame = function() {
     var field = new Field(this._fieldImages, this._selectedField);
-    var selectedSprayer = this._sprayers.blue
-    selectedSprayer.resetStartPosition()
+
+    this._selectedSprayer.resetStartPosition()
 
     if (this._game)
         this._game.stopped = true
 
-    this._game = new Game(field, selectedSprayer, this._gui.onUpdate.bind(this._gui))
+    this._game = new Game(field, this._selectedSprayer, this._gui.onUpdate.bind(this._gui))
     this._game.init()
     this._game.play()
 }
