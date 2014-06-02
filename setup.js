@@ -22,7 +22,6 @@ Setup.prototype.load = function() {
             xhr.open("GET", url)
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.response)
                     resolve(xhr.response)
                 }
             }
