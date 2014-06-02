@@ -15,8 +15,11 @@
 
 <body>
 
-	<header>
+	<header itemscope itemtype="http://schema.org/WebApplication">
 		<h1>Spray the Field!</h1>
+        ... an <span itemprop="browserRequirements">HTML5</span>
+        <span itemprop="description">farming</span>
+        <span itemprop="applicationCategory">game</span>
 	</header>
 
 	<nav>
@@ -101,9 +104,25 @@
 			</p>
 
 			<h3>Author</h3>
-			<p>
-				Tomáš Milata
-			</p>
+            <div itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">Tomáš Milata</span>,
+                <br>
+                <span itemprop="jobTitle">Java developer </span> at
+                <span itemprop="worksFor">
+                    <span itemscope itemtype="http://schema.org/Organization">
+                        <span itemprop="name">CN Group</span>
+                        <a itemprop="url" href="http://www.cngroup.dk">(www.cngroup.dk)</a>
+                    </span>
+                </span>
+                <br>
+                and student at
+                <span itemprop="affiliation">
+                    <span itemscope itemtype="http://schema.org/Organization">
+                        <span itemprop="name">FEE CTU</span>
+                        <a itemprop="url" href="http://fel.cvut.cz">(http://fel.cvut.cz)</a>
+                    </span>
+                </span>
+            </div>
 		</section>
 	</div>
 
