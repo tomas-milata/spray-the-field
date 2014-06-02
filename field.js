@@ -25,7 +25,9 @@ Field.prototype._cloneCells = function(cellData) {
 }
 
 
-var FieldData = function(input) {
+var FieldData = function(input, name) {
+
+    this.name = name
 
     var lines = input.split('\n')
     var params = lines[0].split(' ')

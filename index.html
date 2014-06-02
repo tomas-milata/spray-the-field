@@ -5,12 +5,11 @@
 	<title>Spray the Field!</title>
 	<link rel="stylesheet" href="css/style.css">
 
-	<script src="gui.js"></script>
 	<script src="field.js"></script>
 	<script src="game.js"></script>
 	<script src="graphics.js"></script>
 	<script src="sprayer.js"></script>
-	<script src="setup.js"></script>
+	<script src="app.js"></script>
 
 </head>
 
@@ -70,6 +69,16 @@
                 Coverage: <span id="coverage">0</span>%
                 Goal: <span id="coverage_goal">0</span>%
             </div>
+            <form id="submit_best">
+                <input type="text" placeholder="your name" required="required">
+                <input type="submit" value="Submit">
+            </form>
+            <div>
+                Best score:
+                <span id="best_time">0</span>
+                by
+                <span id="best_name">Mr. Nobody</span>
+            </div>
 		</div>
 
 		<section id="howto">
@@ -98,9 +107,5 @@
 		</section>
 	</div>
 
-	<script>
-		new Setup().load()
-
-	</script>
 </body>
 </html>

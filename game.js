@@ -10,7 +10,7 @@ var Game = function(field, sprayer, updateCallback) {
 	this._downPressed = false
 
 	this._lastUpdated = null
-    this._timeLeft = field.LIMIT_SECONDS * 1000
+    this.timeLeft = field.LIMIT_SECONDS * 1000
 
     this._updateCallback = updateCallback
 
@@ -74,7 +74,7 @@ Game.prototype.onkeyup = function(event) {
 }
 
 Game.prototype._finished = function() {
-    return this.stopped || this._timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
+    return this.stopped || this.timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
 }
 
 Game.prototype._loop = function() {
@@ -87,7 +87,7 @@ Game.prototype._loop = function() {
 	var dt = now - this._lastUpdated
 	this._lastUpdated = now
 
-    this._timeLeft -= dt
+    this.timeLeft -= dt
 
 	this._spray()
 
@@ -139,7 +139,7 @@ Game.prototype._loop = function() {
 	requestAnimationFrame(this._graphics.draw.bind(this._graphics))
 
     this._updateCallback({
-        timeLeft: this._timeLeft,
+        timeLeft: this.timeLeft,
         coverage: this._field.coverage,
         coverageGoal: this._field.LIMIT_COVERAGE
     })
@@ -157,7 +157,7 @@ Game.prototype._spray = function() {
 			if (!this._cellInidicesOutOfRange(i, j)) {
                 var penalty = this._field.sprayCell(i, j)
                 if (penalty) {
-                    this._timeLeft -= this.RESPRAY_PENALTY
+                    this.timeLeft -= this.RESPRAY_PENALTY
                 }
             }
 		}
