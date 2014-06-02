@@ -14,7 +14,7 @@ var Game = function(field, sprayer, updateCallback) {
 
     this._updateCallback = updateCallback
 
-	this.PIX_PER_MS = null
+    this.RESPRAY_PENALTY = 100
 }
 
 Game.prototype.init = function() {
@@ -152,8 +152,12 @@ Game.prototype._spray = function() {
 			var i = Math.floor(coords.x / this._field.CELL_SIZE)
 			var j = Math.floor(coords.y / this._field.CELL_SIZE)
 
-			if (!this._cellInidicesOutOfRange(i, j))
-				this._field.sprayCell(i, j)
+			if (!this._cellInidicesOutOfRange(i, j)) {
+                var penalty = this._field.sprayCell(i, j)
+                if (penalty) {
+                    this._timeLeft -= this.RESPRAY_PENALTY
+                }
+            }
 		}
 	}
 }

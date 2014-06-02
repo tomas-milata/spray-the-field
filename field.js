@@ -45,11 +45,14 @@ Field.prototype._load = function(file) {
 Field.prototype.sprayCell = function(i, j) {
     var c = this.cells[i][j]
     var now = Date.now()
+    var resprayed = false
     if (c.covered != -1) {
         if (now - c.timestamp > this.MAX_NOT_RESPRAYED_DELAY) {
-            if (c.covered++ == 0)
+            if (c.covered++ == 0) // sprayed for the first time
                 this.coverage = 100 * ++this._coveredCells / this._cellsCount
+            else resprayed = true
         }
         c.timestamp = now
     }
+    return resprayed
 }
