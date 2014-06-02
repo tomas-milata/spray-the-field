@@ -139,7 +139,8 @@ Game.prototype._loop = function() {
 
     this._updateCallback({
         timeLeft: this._timeLeft,
-        coverage: this._field.coverage
+        coverage: this._field.coverage,
+        coverageGoal: this._field.LIMIT_COVERAGE
     })
 }
 

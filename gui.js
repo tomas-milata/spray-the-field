@@ -1,6 +1,7 @@
 var GUI = function() {
     this._timeLeft = null
     this._coverage = null
+    this._coverageGoal = null
 }
 
 GUI.prototype.init = function() {
@@ -14,6 +15,7 @@ GUI.prototype.init = function() {
 
         this._timeLeft = document.getElementById('time_left')
         this._coverage = document.getElementById('coverage')
+        this._coverageGoal = document.getElementById('coverage_goal')
 
     }.bind(this))
 }
@@ -42,6 +44,9 @@ GUI.prototype._onDrop = function(e) {
 }
 
 GUI.prototype.onUpdate = function(state) {
-    this._timeLeft.innerHTML = state.timeLeft / 1000
-    this._coverage.innerHTML = state.coverage
+    var timeLeftSecs = state.timeLeft / 1000;
+    timeLeftSecs = timeLeftSecs >= 0 ? timeLeftSecs : 0
+    this._timeLeft.innerHTML = Math.floor(timeLeftSecs)
+    this._coverage.innerHTML = Math.floor(state.coverage)
+    this._coverageGoal.innerHTML = state.coverageGoal
 }
