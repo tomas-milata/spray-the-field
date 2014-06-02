@@ -1,5 +1,5 @@
-var Game = function(field, sprayer, updateCallback) {
-	this._graphics = new Graphics()
+stf.Game = function(field, sprayer, updateCallback) {
+	this._graphics = new stf.Graphics()
 
 	this._sprayer = this._graphics.sprayer = sprayer
 	this._graphics.field = this._field = field
@@ -19,19 +19,19 @@ var Game = function(field, sprayer, updateCallback) {
     this.RESPRAY_PENALTY = 100
 }
 
-Game.prototype.init = function() {
+stf.Game.prototype.init = function() {
 
 	// The sprayer should go across the whole field with same time regardless
 	// of its pixel size
 	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 8000
 }
 
-Game.prototype.play = function() {
+stf.Game.prototype.play = function() {
 	this._lastUpdated = Date.now()
 	this._loop()
 }
 
-Game.prototype.onkeydown = function(event) {
+stf.Game.prototype.onkeydown = function(event) {
     switch (event.keyCode) {
         case 37:
             this._leftPressed = true
@@ -56,7 +56,7 @@ Game.prototype.onkeydown = function(event) {
     }
 }
 
-Game.prototype.onkeyup = function(event) {
+stf.Game.prototype.onkeyup = function(event) {
     switch (event.keyCode) {
         case 37:
             this._leftPressed = false
@@ -73,11 +73,11 @@ Game.prototype.onkeyup = function(event) {
     }
 }
 
-Game.prototype._finished = function() {
+stf.Game.prototype._finished = function() {
     return this.stopped || this.timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
 }
 
-Game.prototype._loop = function() {
+stf.Game.prototype._loop = function() {
 
     if (this._finished()) {
         return
@@ -145,7 +145,7 @@ Game.prototype._loop = function() {
     })
 }
 
-Game.prototype._spray = function() {
+stf.Game.prototype._spray = function() {
 	for (var jet = 0; jet < this._sprayer.jets.length; ++jet) {
 
 		if (this._sprayer.jets[jet]) { // jet is on
@@ -166,7 +166,7 @@ Game.prototype._spray = function() {
 
 
 
-Game.prototype._cellInidicesOutOfRange = function(i, j) {
+stf.Game.prototype._cellInidicesOutOfRange = function(i, j) {
 	var size = this._field.cells.length
 	return i < 0 || j < 0 || i >= size || j >= size
 }

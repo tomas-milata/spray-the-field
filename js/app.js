@@ -1,4 +1,9 @@
-var App = function() {
+/**
+ * @namespace
+ */
+stf = {}
+
+stf.App = function() {
     this._sprayers = null
     this._fieldImages = null
     this._fieldsData = null
@@ -11,7 +16,7 @@ var App = function() {
     this.load()
 }
 
-App.prototype.registerGlobalListeners = function() {
+stf.App.prototype.registerGlobalListeners = function() {
     window.addEventListener("keydown", function (e) {
         if (this._game) {
             this._game.onkeydown(e)
@@ -25,7 +30,7 @@ App.prototype.registerGlobalListeners = function() {
     }.bind(this))
 }
 
-App.prototype.load = function() {
+stf.App.prototype.load = function() {
 
     this.initGui()
 
@@ -71,9 +76,9 @@ App.prototype.load = function() {
 
     Promise.all(imagePromises.concat(mapPromises)).then(function(result) {
         this._sprayers = {
-            red: new RedSprayer(result[0]),
-            green: new GreenSprayer(result[1]),
-            blue: new BlueSprayer(result[2])
+            red: new stf.RedSprayer(result[0]),
+            green: new stf.GreenSprayer(result[1]),
+            blue: new stf.BlueSprayer(result[2])
         }
 
         this._fieldImages = {
@@ -84,10 +89,10 @@ App.prototype.load = function() {
         }
 
         this._fieldsData = {
-            beginnersLuck: new FieldData(result[7], 'beginnersLuck'),
-            obstacle: new FieldData(result[8], 'obstacle'),
-            rectangle: new FieldData(result[9], 'rectangle'),
-            hardTime: new FieldData(result[10], 'hardTime')
+            beginnersLuck: new stf.FieldData(result[7], 'beginnersLuck'),
+            obstacle: new stf.FieldData(result[8], 'obstacle'),
+            rectangle: new stf.FieldData(result[9], 'rectangle'),
+            hardTime: new stf.FieldData(result[10], 'hardTime')
          }
 
         this._selectField(this._fieldsData.beginnersLuck)
@@ -97,7 +102,7 @@ App.prototype.load = function() {
     }.bind(this)) // binds 'then' callback to this
 }
 
-App.prototype.initGui = function() {
+stf.App.prototype.initGui = function() {
     document.addEventListener("DOMContentLoaded", function() {
 
         this._setActiveTabListeners()
@@ -132,13 +137,13 @@ App.prototype.initGui = function() {
     }.bind(this))
 }
 
-App.prototype._selectField = function(field) {
+stf.App.prototype._selectField = function(field) {
     this._selectedField = field
     var record = JSON.parse(localStorage.getItem(field.name))
     this._displayRecord(record)
 }
 
-App.prototype._onBestSubmit = function(e) {
+stf.App.prototype._onBestSubmit = function(e) {
     var time = this._game.timeLeft
     var fieldName = this._selectedField.name
     var playerName = e.target.elements[0].value
@@ -149,7 +154,7 @@ App.prototype._onBestSubmit = function(e) {
     e.preventDefault()
 }
 
-App.prototype._displayRecord = function(record){
+stf.App.prototype._displayRecord = function(record){
     if (typeof record == undefined || record == null) {
         record = {time: 0, name: 'Mr. Nobody'}
     }
@@ -157,7 +162,7 @@ App.prototype._displayRecord = function(record){
     document.getElementById('best_name').innerHTML = record.name
 }
 
-App.prototype._setActiveTabListeners = function(event) {
+stf.App.prototype._setActiveTabListeners = function(event) {
     for (var a of document.querySelectorAll('nav a')) {
         a.addEventListener('click', function(e) {
             document.querySelector('a.active_tab').classList.remove('active_tab')
@@ -166,34 +171,34 @@ App.prototype._setActiveTabListeners = function(event) {
     }
 }
 
-App.prototype._onDrop = function(e) {
+stf.App.prototype._onDrop = function(e) {
     e.preventDefault()
     var file = e.dataTransfer.files[0]
     var reader = new FileReader()
     reader.onload = function(event) {
-        this._selectedField = new FieldData(event.target.result)
+        this._selectedField = new stf.FieldData(event.target.result)
     }.bind(this)
     reader.readAsText(file)
 }
 
-App.prototype._initialized = function() {
+stf.App.prototype._initialized = function() {
     document.getElementById('loading').innerHTML = ''
 }
 
-App.prototype._startGame = function() {
-    var field = new Field(this._fieldImages, this._selectedField);
+stf.App.prototype._startGame = function() {
+    var field = new stf.Field(this._fieldImages, this._selectedField);
 
     this._selectedSprayer.resetStartPosition()
 
     if (this._game)
         this._game.stopped = true
 
-    this._game = new Game(field, this._selectedSprayer, this.onUpdate.bind(this))
+    this._game = new stf.Game(field, this._selectedSprayer, this.onUpdate.bind(this))
     this._game.init()
     this._game.play()
 }
 
-App.prototype.onUpdate = function(state) {
+stf.App.prototype.onUpdate = function(state) {
     var timeLeftSecs = state.timeLeft / 1000;
     timeLeftSecs = timeLeftSecs >= 0 ? timeLeftSecs : 0
     this.timeLeft.innerHTML = Math.floor(timeLeftSecs)
@@ -201,4 +206,4 @@ App.prototype.onUpdate = function(state) {
     this._coverageGoal.innerHTML = state.coverageGoal
 }
 
-new App()
+new stf.App()

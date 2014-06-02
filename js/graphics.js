@@ -1,4 +1,4 @@
-var Graphics = function() {
+stf.Graphics = function() {
     this.sprayer = null
     this.field = null
 
@@ -6,12 +6,12 @@ var Graphics = function() {
     this._ctx = this.canvas.getContext("2d")
 }
 
-Graphics.prototype.draw = function() {
+stf.Graphics.prototype.draw = function() {
     this._drawField()
     this.drawSprayer()
 }
 
-Graphics.prototype.drawSprayer = function() {
+stf.Graphics.prototype.drawSprayer = function() {
     this._drawField()
 
     this._ctx.save();
@@ -29,7 +29,7 @@ Graphics.prototype.drawSprayer = function() {
     this._ctx.restore()
 }
 
-Graphics.prototype._drawField = function() {
+stf.Graphics.prototype._drawField = function() {
     var f = this.field
     for (var i = 0; i < f.cells.length; i++)
         for (var j = 0; j < f.cells.length; j++)
@@ -43,7 +43,7 @@ Graphics.prototype._drawField = function() {
                 this._drawCell(i, j, f.images.resprayed)
 }
 
-Graphics.prototype._drawCell = function(i, j, image) {
+stf.Graphics.prototype._drawCell = function(i, j, image) {
     var x = i * this.field.CELL_SIZE
     var y = j * this.field.CELL_SIZE
 

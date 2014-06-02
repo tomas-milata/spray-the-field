@@ -1,4 +1,4 @@
-var Field = function(images, data) {
+stf.Field = function(images, data) {
     this.images = images
 
     this.CELL_SIZE = 10
@@ -12,7 +12,7 @@ var Field = function(images, data) {
     this.LIMIT_COVERAGE = data.limitCoverage
 }
 
-Field.prototype._cloneCells = function(cellData) {
+stf.Field.prototype._cloneCells = function(cellData) {
     var cells = new Array(cellData.length)
     for (var i = 0; i < cellData.length; i++) {
         cells[i] = new Array(cellData[i].length)
@@ -25,7 +25,7 @@ Field.prototype._cloneCells = function(cellData) {
 }
 
 
-var FieldData = function(input, name) {
+stf.FieldData = function(input, name) {
 
     this.name = name
 
@@ -53,7 +53,7 @@ var FieldData = function(input, name) {
     this.cells = cells
 }
 
-Field.prototype.sprayCell = function(i, j) {
+stf.Field.prototype.sprayCell = function(i, j) {
     var c = this.cells[i][j]
     var now = Date.now()
     var resprayed = false

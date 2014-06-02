@@ -1,4 +1,4 @@
-var Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
+stf.Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     behindCenter) {
     this.image = image
 
@@ -15,7 +15,7 @@ var Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     this.JETS_COUNT = jetsCount
 }
 
-Sprayer.prototype.resetStartPosition = function() {
+stf.Sprayer.prototype.resetStartPosition = function() {
     this.x = 100
     this.y = 50
     this.angle = 3
@@ -26,7 +26,7 @@ Sprayer.prototype.resetStartPosition = function() {
         this.jets[i] = true
 }
 
-Sprayer.prototype.jetCoords = function(i, cellSize) {
+stf.Sprayer.prototype.jetCoords = function(i, cellSize) {
     var x = this.x - Math.sin(this.angle) * this.BEHIND_CENTER
     var y = this.y + Math.cos(this.angle) * this.BEHIND_CENTER
 
@@ -39,24 +39,24 @@ Sprayer.prototype.jetCoords = function(i, cellSize) {
     }
 }
 
-Sprayer.prototype.toggleJet = function(jetNo) {
+stf.Sprayer.prototype.toggleJet = function(jetNo) {
     jetNo = this.jets.length - jetNo - 1 // left to right
     if (jetNo >= 0 && jetNo < this.jets.length)
         this.jets[jetNo] = !this.jets[jetNo]
 }
 
-var RedSprayer = function(image) {
-    Sprayer.call(this, image, 1.33, -0.2, Math.PI / 2000, 6, 15)
+stf.RedSprayer = function(image) {
+    stf.Sprayer.call(this, image, 1.33, -0.2, Math.PI / 2000, 6, 15)
 }
 
-var GreenSprayer = function(image) {
-    Sprayer.call(this, image, 0.8, -0.2, Math.PI / 2000, 10, 30)
+stf.GreenSprayer = function(image) {
+    stf.Sprayer.call(this, image, 0.8, -0.2, Math.PI / 2000, 10, 30)
 }
 
-var BlueSprayer = function(image) {
-    Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 8, 15)
+stf.BlueSprayer = function(image) {
+    stf.Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 8, 15)
 }
 
-RedSprayer.prototype = Object.create(Sprayer.prototype)
-GreenSprayer.prototype = Object.create(Sprayer.prototype)
-BlueSprayer.prototype = Object.create(Sprayer.prototype)
+stf.RedSprayer.prototype = Object.create(stf.Sprayer.prototype)
+stf.GreenSprayer.prototype = Object.create(stf.Sprayer.prototype)
+stf.BlueSprayer.prototype = Object.create(stf.Sprayer.prototype)
