@@ -163,8 +163,9 @@ stf.App.prototype._displayRecord = function(record){
 }
 
 stf.App.prototype._setActiveTabListeners = function(event) {
-    for (var a of document.querySelectorAll('nav a')) {
-        a.addEventListener('click', function(e) {
+    var a = document.querySelectorAll('nav a')
+    for (var i = 0; i < a.length; i++) {
+        a[i].addEventListener('click', function(e) {
             document.querySelector('a.active_tab').classList.remove('active_tab')
             e.target.classList.add('active_tab')
         })

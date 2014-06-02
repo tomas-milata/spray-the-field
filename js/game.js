@@ -126,7 +126,7 @@ stf.Game.prototype._loop = function() {
 				this._sprayer.angleSpeed -= this._sprayer.CONSTANT_ANGLE_DECELERATION
 			else
 				this._sprayer.angleSpeed += this._sprayer.CONSTANT_ANGLE_DECELERATION
-			if (Math.sign(old) != Math.sign(this._sprayer.angleSpeed))
+			if ((old > 0) != (this._sprayer.angleSpeed > 0)) // different signs
 				this._sprayer.angleSpeed = 0
 		}
 	}
