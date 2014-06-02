@@ -40,6 +40,10 @@ Setup.prototype.load = function() {
         this._selectedSprayer = this._sprayers[vehicle]
     }.bind(this)
 
+    this._gui.onFieldSelected = function(field) {
+        this._selectedField = this.fieldsData[field]
+    }.bind(this)
+
     var loadImage = function(url) {
         return new Promise(function(resolve, reject) {
             var img = new Image()
@@ -101,7 +105,7 @@ Setup.prototype.load = function() {
             hardTime: new FieldData(result[10])
          }
 
-        this._selectedField = this.fieldsData.hardTime
+        this._selectedField = this.fieldsData.beginnersLuck
         this._selectedSprayer = this._sprayers.blue
 
         setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout

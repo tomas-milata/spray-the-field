@@ -32,25 +32,34 @@
 	<div id="main">
 		<div id="setup">
 			<div>
-
                 Vehicle
-
                 <label>
-                    <input type="radio" name="vehicle" value="red">
+                    <input type="radio" name="sprayer" value="red">
                     <img src="img/sprayer_red.png">
                 </label>
                 <label>
-                    <input type="radio" name="vehicle" value="green">
+                    <input type="radio" name="sprayer" value="green">
                     <img src="img/sprayer_green.png">
                 </label>
                 <label>
-                    <input type="radio" name="vehicle" value="blue" checked="checked">
+                    <input type="radio" name="sprayer" value="blue" checked="checked">
                     <img src="img/sprayer_blue.png">
                 </label>
             </div>
 
-			<div class="droppable">
-				drop your file here
+			<div>
+                <label>
+                    Field
+                    <select name="field">
+                        <option value="beginnersLuck">Beginner's Luck</option>
+                        <option value="obstacle">Obstacle</option>
+                        <option value="rectangle">Rectangle</option>
+                        <option value="hardTime">Hard Time</option>
+                    </select>
+                </label>
+                <div class="droppable">
+                    Load from file (drop here)
+                </div>
 			</div>
 		</div>
 
