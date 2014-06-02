@@ -41,15 +41,15 @@ Sprayer.prototype.toggleJet = function(jetNo) {
 }
 
 var RedSprayer = function(image) {
-    Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 4, 15)
+    Sprayer.call(this, image, 1.33, -0.2, Math.PI / 2000, 6, 15)
 }
 
 var GreenSprayer = function(image) {
-    Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 8, 30)
+    Sprayer.call(this, image, 0.8, -0.2, Math.PI / 2000, 10, 30)
 }
 
 var BlueSprayer = function(image) {
-    Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 6, 15)
+    Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 8, 15)
 }
 
 RedSprayer.prototype = Object.create(Sprayer.prototype)

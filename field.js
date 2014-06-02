@@ -1,9 +1,14 @@
 var Field = function(images, file) {
-    this._load(file)
-    this.timeRemaining
-
     this.images = images
-    this.CELL_SIZE = 15
+
+    this.CELL_SIZE = 10
+    this.MAX_NOT_RESPRAYED_DELAY = 100
+
+    this.coverage = null
+    this._coveredCells = 0
+    this._cellsCount = null
+
+    this._load(file)
 }
 
 
@@ -14,9 +19,10 @@ Field.prototype._load = function(file) {
 
     var rows = params[0]
     var cols = params[1]
-    var limitSeconds = params[2]
-    var limitCoverage = params[3]
+    this.LIMIT_SECONDS = params[2]
+    this.LIMIT_COVERAGE = params[3]
 
+    this._cellsCount = rows * cols
 
     var cells = new Array(rows)
 
@@ -34,4 +40,16 @@ Field.prototype._load = function(file) {
 
 
     this.cells = cells
+}
+
+Field.prototype.sprayCell = function(i, j) {
+    var c = this.cells[i][j]
+    var now = Date.now()
+    if (c.covered != -1) {
+        if (now - c.timestamp > this.MAX_NOT_RESPRAYED_DELAY) {
+            if (c.covered++ == 0)
+                this.coverage = 100 * ++this._coveredCells / this._cellsCount
+        }
+        c.timestamp = now
+    }
 }

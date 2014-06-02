@@ -1,4 +1,7 @@
-var GUI = function() {}
+var GUI = function() {
+    this._timeLeft = null
+    this._coverage = null
+}
 
 GUI.prototype.init = function() {
     document.addEventListener("DOMContentLoaded", function() {
@@ -9,7 +12,8 @@ GUI.prototype.init = function() {
         droppable.addEventListener('dragover', this._allowDrop)
         droppable.addEventListener('drop', this._onDrop)
 
-        document
+        this._timeLeft = document.getElementById('time_left')
+        this._coverage = document.getElementById('coverage')
 
     }.bind(this))
 }
@@ -37,5 +41,7 @@ GUI.prototype._onDrop = function(e) {
     reader.readAsText(file);
 }
 
-var gui = new GUI()
-gui.init()
+GUI.prototype.onUpdate = function(state) {
+    this._timeLeft.innerHTML = state.timeLeft / 1000
+    this._coverage.innerHTML = state.coverage
+}

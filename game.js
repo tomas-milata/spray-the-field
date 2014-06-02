@@ -1,4 +1,4 @@
-var Game = function(field, sprayer) {
+var Game = function(field, sprayer, updateCallback) {
 	this._graphics = new Graphics()
 
 	this._sprayer = this._graphics.sprayer = sprayer
@@ -10,16 +10,18 @@ var Game = function(field, sprayer) {
 	this._downPressed = false
 
 	this._lastUpdated = null
+    this._timeLeft = field.LIMIT_SECONDS * 1000
+
+    this._updateCallback = updateCallback
 
 	this.PIX_PER_MS = null
-	this.MAX_NOT_RESPRAYED_DELAY = 100
 }
 
 Game.prototype.init = function() {
 
 	// The sprayer should go across the whole field with same time regardless
 	// of its pixel size
-	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 4000
+	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 8000
 
 }
 
@@ -46,7 +48,7 @@ Game.prototype.play = function() {
 			this._downPressed = true
 			break
 		default:
-			if (event.keyCode >= 49 && event.keyCode <= 55) // 49 is "1" key
+			if (event.keyCode >= 49 && event.keyCode <= 58) // 49 is "1" key
 				this._sprayer.toggleJet(event.keyCode - 49)
 			break
 		}
@@ -70,10 +72,21 @@ Game.prototype.play = function() {
 	}.bind(this)) // binds listener to this (Game)
 }
 
+Game.prototype._finished = function() {
+    return this._timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
+}
+
 Game.prototype._loop = function() {
+
+    if (this._finished()) {
+        return
+    }
+
 	var now = Date.now()
 	var dt = now - this._lastUpdated
 	this._lastUpdated = now
+
+    this._timeLeft -= dt
 
 	this._spray()
 
@@ -121,8 +134,13 @@ Game.prototype._loop = function() {
 	this._sprayer.x += Math.sin(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.angle += dt * this._sprayer.angleSpeed
 
-	setTimeout(this._loop.bind(this), 20)
+	setTimeout(this._loop.bind(this), 25)
 	requestAnimationFrame(this._graphics.draw.bind(this._graphics))
+
+    this._updateCallback({
+        timeLeft: this._timeLeft,
+        coverage: this._field.coverage
+    })
 }
 
 Game.prototype._spray = function() {
@@ -135,21 +153,12 @@ Game.prototype._spray = function() {
 			var j = Math.floor(coords.y / this._field.CELL_SIZE)
 
 			if (!this._cellInidicesOutOfRange(i, j))
-				this._sprayCell(i, j)
+				this._field.sprayCell(i, j)
 		}
 	}
 }
 
-Game.prototype._sprayCell = function(i, j) {
-	var c = this._field.cells[i][j]
-	var now = Date.now()
-	if (c.covered != -1) {
-		if (now - c.timestamp > this.MAX_NOT_RESPRAYED_DELAY) {
-			c.covered++
-		}
-		c.timestamp = now
-	}
-}
+
 
 Game.prototype._cellInidicesOutOfRange = function(i, j) {
 	var size = this._field.cells.length

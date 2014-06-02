@@ -1,10 +1,15 @@
 var Setup = function() {
     this._sprayers = null
     this._fieldImages = null
-    this.fields = {}
+    this.fields = null
+
+    this._gui = new GUI()
+
 }
 
 Setup.prototype.load = function() {
+
+    this._gui.init()
 
     var loadImage = function(url) {
         return new Promise(function(resolve, reject) {
@@ -40,7 +45,10 @@ Setup.prototype.load = function() {
     ].map(loadImage)
 
     var mapPromises = [
-        'maps/beginners_luck.txt'
+        'maps/beginners_luck',
+        'maps/obstacle',
+        'maps/rectangle',
+        'maps/hard_time'
     ].map(loadMap)
 
     Promise.all(imagePromises.concat(mapPromises)).then(function(result) {
@@ -57,7 +65,12 @@ Setup.prototype.load = function() {
             resprayed : result[6]
         }
 
-        this.fields.beginnersLuck = new Field(this._fieldImages, result[7])
+        this.fields = {
+            beginnersLuck: new Field(this._fieldImages, result[7]),
+            obstacle: new Field(this._fieldImages, result[8]),
+            rectangle: new Field(this._fieldImages, result[9]),
+            hardTime: new Field(this._fieldImages, result[10])
+         }
 
         setTimeout(this._initialized.bind(this), 1500) // TODO remove timeout
     }.bind(this)) // binds 'then' callback to this
@@ -65,7 +78,8 @@ Setup.prototype.load = function() {
 
 Setup.prototype._initialized = function() {
     document.getElementById('loading').innerHTML = ''
-    var g = new Game(this.fields.beginnersLuck, this._sprayers.blue)
+    var g = new Game(this.fields.hardTime, this._sprayers.blue,
+        this._gui.onUpdate.bind(this._gui))
     g.init()
     g.play()
 }
