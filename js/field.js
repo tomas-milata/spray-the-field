@@ -7,7 +7,7 @@ stf.Field = function(images, data) {
     this.coverage = 0
     this._coveredCells = 0
     this.cells = this._cloneCells(data.cells) // clone array
-    this._cellsCount = data.cellsCount
+    this._cellsCount = data.cellsToSprayCount
     this.LIMIT_SECONDS = data.limitSeconds
     this.LIMIT_COVERAGE = data.limitCoverage
 }
@@ -29,6 +29,8 @@ stf.FieldData = function(input, name) {
 
     this.name = name
 
+    this.cellsToSprayCount = 0
+
     var lines = input.split('\n')
     var params = lines[0].split(' ')
 
@@ -41,15 +43,16 @@ stf.FieldData = function(input, name) {
         cells[i] = new Array(cols)
         for (var j = 0; j < cols; ++j) {
             var covered = -1
-            if (lines[i + 1][j] == '|')
+            if (lines[i + 1][j] == '|') {
                 covered = 0
+                ++this.cellsToSprayCount
+            }
             cells[i][j] = covered
         }
     }
 
     this.limitSeconds = params[2]
     this.limitCoverage = params[3]
-    this.cellsCount = rows * cols
     this.cells = cells
 }
 
