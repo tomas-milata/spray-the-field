@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Spray the Field!</title>
+
 	<link rel="stylesheet" href="css/style.css">
 
     <script src="js/app.js"></script>
@@ -13,28 +14,33 @@
 
 </head>
 
-<body>
+<body class="loading">
 
 	<header itemscope itemtype="http://schema.org/WebApplication">
-		<h1>Spray the Field!</h1>
-        ... an <span itemprop="browserRequirements">HTML5</span>
-        <span itemprop="description">farming</span>
-        <span itemprop="applicationCategory">game</span>
+        <div>
+            <h1>Spray the Field!</h1>
+            ... an <span itemprop="browserRequirements">HTML5</span>
+            <span itemprop="description">farming</span>
+            <span itemprop="applicationCategory">game</span>
+        </div>
 	</header>
 
 	<nav>
-		<a href="#setup" class="active_tab">maps, vehicles &amp; setup</a>
-		<a href="#play">play</a>
-		<a href="#howto">how to play</a>
-		<a href="#about">about</a>
+		<a href="#setup" class="active_tab">Maps & Vehicles</a>
+		<a href="#play">Play</a>
+		<a href="#howto">How to...</a>
+		<a href="#about">About</a>
 	</nav>
 
-	<div id="loading">loading...</div>
+    <div id="loading">
+        <progress>loading...</progress>
+    </div>
 
 	<div id="main">
+
 		<div id="setup">
 			<div>
-                Vehicle
+                <h3>Vehicle</h3>
                 <label>
                     <input type="radio" name="sprayer" value="red">
                     <img src="img/sprayer_red.png">
@@ -51,7 +57,7 @@
 
 			<div>
                 <label>
-                    Field
+                    <h3>Field</h3>
                     <select name="field">
                         <option value="beginnersLuck">Beginner's Luck</option>
                         <option value="obstacle">Obstacle</option>
@@ -67,25 +73,44 @@
 
 		<div id="play" class="playing">
             <div id="game_state">
-                Time left: <span id="time_left">0</span>s
-                Coverage: <span id="coverage">0</span>%
-                Goal: <span id="coverage_goal">0</span>%
+                <span>
+                    <span class="key">Time left:</span>
+                    <span id="time_left" class="value">0</span>s
+                </span>
+                <span>
+                    <span class="key">Coverage:</span>
+                    <span id="coverage" class="value">0</span>%
+                </span>
+                <span>
+                    <span class="key">Goal:</span>
+                    <span id="coverage_goal" class="value">0</span>%
+                </span>
+                <span id="best">
+                    <span class="key">Best score:</span>
+                    <span id="best_time" class="value">0</span>
+                    by
+                    <span id="best_name">Mr. Nobody</span>
+                </span>
             </div>
 
-            <div id="best">
-                Best score:
-                <span id="best_time">0</span>
-                by
-                <span id="best_name">Mr. Nobody</span>
-            </div>
 
 			<canvas width=600 height=600></canvas>
 
-            <form id="submit_best">
+            <form id="record" class="result">
                 <h3>New record!</h3>
                 <input type="text" placeholder="enter your name" required="required">
                 <input type="submit" value="Submit">
             </form>
+
+            <div id="win" class="result">
+                <h3>You won!</h3>
+                Try to beat the record next time...
+            </div>
+
+            <div id="loose" class="result">
+                <h3>You lost!</h3>
+                Better luck next time...
+            </div>
 		</div>
 
 		<div id="howto">
@@ -131,6 +156,10 @@
             </div>
 		</article>
 	</div>
+
+    <footer>
+        <a href="https://github.com/tomas-milata/spray-the-field">https://github.com/tomas-milata/spray-the-field</a>
+    </footer>
 
 </body>
 </html>

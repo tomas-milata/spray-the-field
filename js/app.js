@@ -129,7 +129,7 @@ stf.App.prototype.initGui = function() {
                 this._selectField(this._fieldsData[e.target.value])
             }.bind(this))
 
-        document.getElementById('submit_best').addEventListener('submit',
+        document.getElementById('record').addEventListener('submit',
             this._onBestSubmit.bind(this))
 
         this.timeLeft = document.getElementById('time_left')
@@ -192,7 +192,7 @@ stf.App.prototype._onDrop = function(e) {
 }
 
 stf.App.prototype._initialized = function() {
-    document.getElementById('loading').innerHTML = ''
+    document.querySelector('body').classList.remove('loading')
 }
 
 stf.App.prototype._startGame = function() {
@@ -203,7 +203,7 @@ stf.App.prototype._startGame = function() {
 
     this._selectedSprayer.resetStartPosition()
 
-    var record = JSON.parse(localStorage.getItem(field.name))
+    var record = JSON.parse(localStorage.getItem(this._selectedFieldData.name))
     var recordTime = record == null ? 0 : record.time
 
     if (this._game)
@@ -217,7 +217,7 @@ stf.App.prototype._startGame = function() {
 }
 
 stf.App.prototype.onGameStop = function(result) {
-    document.getElementById('play').className = result
+    document.getElementById('play').className = 'finished ' + result
 }
 
 stf.App.prototype.onUpdate = function(state) {

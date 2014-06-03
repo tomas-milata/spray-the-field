@@ -1,23 +1,175 @@
-body {
-    background-color: rgb(115,142,25);
+* {
+    color: #261d15;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-body > nav {
-    background-color: rgb(178,118,57);
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #bfbc8a;
+}
+
+header, footer {
+    background-color: #46591d;
+    color: #bfbc8a;
+    margin: 0;
+}
+
+header *, footer * {
+    color: #bfbc8a;
+}
+
+header div {
+    margin: 0 1em;
+}
+
+header h1 {
+    margin-top: 0;
+}
+
+footer {
+    bottom: 0;
+    width: 100%;
+    position: fixed;
+}
+
+footer * {
+    margin: 1em;
+}
+
+nav {
+    padding: 0.5em;
+    background-color: #5b7329;
     font-size: 1.5em;
 }
 
-body > nav a {
+nav a {
     text-decoration: none;
-    color: rgb(80,60,30);
+    padding: 0.25em;
 }
 
-div#main > div:not(:target), article:not(:target) {
+#main {
+    padding: 1em;
+}
+
+#main > div:not(:target), article:not(:target) {
     display: none
 }
 
+.loading *:not(#loading) {
+    display: none;
+}
+
+*:not(.loading) #loading {
+    display: none;
+}
+
+.loading #loading {
+    display: block;
+    border-radius: 5px;
+    background-color: #95a617;
+    text-align: center;
+    padding: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30%;
+    width: 30%;
+}
+
+.loading #loading * {
+    display: block;
+}
+
 a.active_tab {
-    background-color: yellow
+    color: #95a617;
+    background-color: #261d15;
+    border-radius: 5px;
+}
+
+#game_state {
+    margin: 2em;
+}
+
+#game_state * {
+    color: #bfbc8a;
+    border-radius: 0.5em;
+    padding: 0.2em;
+}
+
+#game_state > *:nth-child(even) {
+    background-color: #261d15;
+}
+
+
+#game_state > *:nth-child(odd) {
+    background-color: #46591d;
+}
+
+/*p:nth-child(even) {*/
+    /*background-color: rgb(147,175,62)*/
+/*}*/
+
+/*p:nth-child(odd) {*/
+    /*background-color: rgb(115,142,25)*/
+/*}*/
+
+.droppable {
+    border: 5px dashed #261d15;
+    width: 15em;
+    height: 15em;
+}
+
+canvas {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.finished {
+    -webkit-perspective: 500px;
+    -moz-perspective: 500px;
+    -ms-perspective: 500px;
+    perspective: 500px;
+}
+
+.finished canvas {
+    height: 300px;
+    width: 300px;
+
+    -webkit-transform: scale(0.75) rotateY(-10deg);
+    -moz-transform: scale(0.75) rotateY(-10deg);
+    -ms-transform: scale(0.75) rotateY(-10deg);
+    -o-transform: scale(0.75) rotateY(-10deg);
+    transform: scale(0.75) rotateY(-10deg);
+
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -ms-transition: -ms-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+
+    border: 20px solid black;
+}
+
+.result {
+    display: none;
+    border-radius: 5px;
+    background-color: #95a617;
+    text-align: center;
+    padding: 2em;
+}
+
+.loose #loose {
+    display: block;
+}
+
+.win #win {
+    display: block;
+}
+
+.record #record {
+    display: block;
 }
 
 input[name="sprayer"] + img:hover {
@@ -132,69 +284,3 @@ input[name="sprayer"]:checked + img {
     }
 }
 
-
-/*p:nth-child(even) {*/
-    /*background-color: rgb(147,175,62)*/
-/*}*/
-
-/*p:nth-child(odd) {*/
-    /*background-color: rgb(115,142,25)*/
-/*}*/
-
-.droppable {
-    border: 5px dashed black
-}
-
-canvas {
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-
-.playing > * {
-    border: 10px solid royalblue;
-}
-
-.loose > * {
-    border: 2px solid crimson;
-}
-
-#submit_best {
-    display: none;
-}
-
-.record {
-    -webkit-perspective: 500px;
-    -moz-perspective: 500px;
-    -ms-perspective: 500px;
-    perspective: 500px;
-}
-
-.record #submit_best {
-    border: 2px solid lime;
-    display: block;
-}
-
-.record canvas {
-    height: 300px;
-    width: 300px;
-
-    -webkit-transform: scale(0.75) rotateY(-10deg);
-    -moz-transform: scale(0.75) rotateY(-10deg);
-    -ms-transform: scale(0.75) rotateY(-10deg);
-    -o-transform: scale(0.75) rotateY(-10deg);
-    transform: scale(0.75) rotateY(-10deg);
-
-    -webkit-transition: -webkit-transform 1s;
-    -moz-transition: -moz-transform 1s;
-    -ms-transition: -ms-transform 1s;
-    -o-transition: -o-transform 1s;
-    transition: transform 1s;
-
-    border: 20px solid black;
-}
-
-.record #best {
-    display: none;
-}
