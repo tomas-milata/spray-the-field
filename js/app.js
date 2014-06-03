@@ -108,8 +108,6 @@ stf.App.prototype.load = function() {
 stf.App.prototype.initGui = function() {
     document.addEventListener("DOMContentLoaded", function() {
 
-        this._setActiveTabListeners()
-
         var droppable = document.querySelector(".droppable")
         droppable.addEventListener('dragover', function(e) {
             e.preventDefault()
@@ -144,6 +142,9 @@ stf.App.prototype._onHashChange = function() {
         this._startGame()
     else if (this._game != null)
         this._game.stop()
+
+    document.querySelector('a.active_tab').classList.remove('active_tab')
+    document.querySelector('a[href="' + location.hash + '"]').classList.add('active_tab')
 }
 
 stf.App.prototype._selectField = function(field) {
@@ -161,6 +162,8 @@ stf.App.prototype._onBestSubmit = function(e) {
     this._displayRecord(record)
 
     e.preventDefault()
+
+    location.hash = '#setup'
 }
 
 stf.App.prototype._displayRecord = function(record){
@@ -169,16 +172,6 @@ stf.App.prototype._displayRecord = function(record){
     }
     document.getElementById('best_time').innerHTML = record.time
     document.getElementById('best_name').innerHTML = record.name
-}
-
-stf.App.prototype._setActiveTabListeners = function(event) {
-    var a = document.querySelectorAll('nav a')
-    for (var i = 0; i < a.length; i++) {
-        a[i].addEventListener('click', function(e) {
-            document.querySelector('a.active_tab').classList.remove('active_tab')
-            e.target.classList.add('active_tab')
-        })
-    }
 }
 
 stf.App.prototype._onDrop = function(e) {
@@ -193,6 +186,7 @@ stf.App.prototype._onDrop = function(e) {
 
 stf.App.prototype._initialized = function() {
     document.querySelector('body').classList.remove('loading')
+    location.hash = '#setup'
 }
 
 stf.App.prototype._startGame = function() {

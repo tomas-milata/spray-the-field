@@ -84,6 +84,8 @@ a.active_tab {
     color: #95a617;
     background-color: #261d15;
     border-radius: 5px;
+    pointer-events: none;
+    cursor: default;
 }
 
 #game_state {
