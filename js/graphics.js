@@ -1,3 +1,7 @@
+/**
+ * Creates Graphics object, queires for canvas and creates context.
+ * @constructor
+ */
 stf.Graphics = function() {
     this.sprayer = null
     this.field = null
@@ -6,11 +10,17 @@ stf.Graphics = function() {
     this._ctx = this.canvas.getContext("2d")
 }
 
+/**
+ * Draws all scene
+ */
 stf.Graphics.prototype.draw = function() {
     this._drawField()
     this.drawSprayer()
 }
 
+/**
+ * Draws sprayer stored within this graphics instance.
+ */
 stf.Graphics.prototype.drawSprayer = function() {
     this._drawField()
 
@@ -29,6 +39,10 @@ stf.Graphics.prototype.drawSprayer = function() {
     this._ctx.restore()
 }
 
+/**
+ * Draws field stored wihtin this graphics instance
+ * @private
+ */
 stf.Graphics.prototype._drawField = function() {
     var f = this.field
     for (var i = 0; i < f.cells.length; i++)
@@ -43,6 +57,13 @@ stf.Graphics.prototype._drawField = function() {
                 this._drawCell(i, j, f.images.resprayed)
 }
 
+/**
+ * Draws cell in a certain colour depending on its state.
+ * @param i
+ * @param j
+ * @param image
+ * @private
+ */
 stf.Graphics.prototype._drawCell = function(i, j, image) {
     var x = i * this.field.CELL_SIZE
     var y = j * this.field.CELL_SIZE

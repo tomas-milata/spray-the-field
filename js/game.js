@@ -1,3 +1,12 @@
+/**
+ * Creates new instance and initializes graphics.
+ * @param field
+ * @param sprayer
+ * @param updateCallback
+ * @param tractorSound
+ * @param historyBest
+ * @constructor
+ */
 stf.Game = function(field, sprayer, updateCallback, tractorSound, historyBest) {
 	this._graphics = new stf.Graphics()
 
@@ -20,15 +29,15 @@ stf.Game = function(field, sprayer, updateCallback, tractorSound, historyBest) {
     this._stopped = false
 
     this.RESPRAY_PENALTY = 100
+
+    // The sprayer should go across the whole field with same time regardless
+    // of its pixel size
+    this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 8000
 }
 
-stf.Game.prototype.init = function() {
-
-	// The sprayer should go across the whole field with same time regardless
-	// of its pixel size
-	this.DISTANCE_TO_PIXELS = this._graphics.canvas.width / 8000
-}
-
+/**
+ * Initializes and starts main game loop.
+ */
 stf.Game.prototype.play = function() {
     this._tractorSound.loop = true
     this._tractorSound.play()
@@ -36,36 +45,47 @@ stf.Game.prototype.play = function() {
 	this._loop()
 }
 
+/**
+ * Stops running game.
+ */
 stf.Game.prototype.stop = function() {
     this._tractorSound.pause()
     this._stopped = true
 }
 
+/**
+ * Handles pressed keys
+ * @param event
+ */
 stf.Game.prototype.onkeydown = function(event) {
     switch (event.keyCode) {
-        case 37:
+        case 37: // left arrow
             this._leftPressed = true
             this._rightPressed = false
             break
-        case 38:
+        case 38: // up arrow
             this._upPressed = true
             this._downPressed = false
             break
-        case 39:
+        case 39: // right arrow
             this._leftPressed = false
             this._rightPressed = true
             break
-        case 40:
+        case 40: // down arrow
             this._upPressed = false
             this._downPressed = true
             break
-        default:
+        default: // keys 1, 2, ..., 9, 0
             if (event.keyCode >= 49 && event.keyCode <= 58) // 49 is "1" key
                 this._sprayer.toggleJet(event.keyCode - 49)
             break
     }
 }
 
+/**
+ * Handlers key release events.
+ * @param event
+ */
 stf.Game.prototype.onkeyup = function(event) {
     switch (event.keyCode) {
         case 37:
@@ -83,10 +103,19 @@ stf.Game.prototype.onkeyup = function(event) {
     }
 }
 
+/**
+ * Test terminating condition.
+ * @returns {boolean|*}
+ * @private
+ */
 stf.Game.prototype._finished = function() {
     return this._stopped || this.timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
 }
 
+/**
+ * Decides whether player lost, won or even made record and notifies callback.
+ * @private
+ */
 stf.Game.prototype._reportResult = function() {
     var result = 'loose'
     if (this._field.coverage >= this._field.LIMIT_COVERAGE)
@@ -95,7 +124,10 @@ stf.Game.prototype._reportResult = function() {
         result = 'record'
     this.stopCallback(result)
 }
-
+/**
+ * Main game loop.
+ * @private
+ */
 stf.Game.prototype._loop = function() {
 
     if (this._finished()) {
@@ -105,6 +137,7 @@ stf.Game.prototype._loop = function() {
     }
 
 	var now = Date.now()
+    // time delta
 	var dt = now - this._lastUpdated
 	this._lastUpdated = now
 
@@ -112,6 +145,7 @@ stf.Game.prototype._loop = function() {
 
 	this._spray()
 
+    // sprayer physics
 	if (this._upPressed) {
 		this._sprayer.speed += dt * this._sprayer.ACCELERATION
 		if (this._sprayer.speed > this._sprayer.MAX_SPEED)
@@ -156,9 +190,12 @@ stf.Game.prototype._loop = function() {
 	this._sprayer.x += Math.sin(this._sprayer.angle) * dt * this._sprayer.speed * this.DISTANCE_TO_PIXELS
 	this._sprayer.angle += dt * this._sprayer.angleSpeed
 
+    // continue in loop
 	setTimeout(this._loop.bind(this), 25)
+    // redraw when possible
 	requestAnimationFrame(this._graphics.draw.bind(this._graphics))
 
+    // notify listener about game state
     this._updateCallback({
         timeLeft: this.timeLeft,
         coverage: this._field.coverage,
@@ -166,6 +203,10 @@ stf.Game.prototype._loop = function() {
     })
 }
 
+/**
+ * Sprays using all sprayer's jets.
+ * @private
+ */
 stf.Game.prototype._spray = function() {
 	for (var jet = 0; jet < this._sprayer.jets.length; ++jet) {
 
@@ -185,8 +226,12 @@ stf.Game.prototype._spray = function() {
 	}
 }
 
-
-
+/**
+ * @param i
+ * @param j
+ * @returns {boolean} true iff given cell indicies are out of field range
+ * @private
+ */
 stf.Game.prototype._cellInidicesOutOfRange = function(i, j) {
 	var size = this._field.cells.length
 	return i < 0 || j < 0 || i >= size || j >= size

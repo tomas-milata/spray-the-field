@@ -1,3 +1,13 @@
+/**
+ * Creates new instance of Sprayer, initialized given and default sprayer parameters.
+ * @param image
+ * @param maxSpeed
+ * @param minSpeed
+ * @param maxAngleSpeed
+ * @param jetsCount
+ * @param behindCenter
+ * @constructor
+ */
 stf.Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     behindCenter) {
     this.image = image
@@ -15,6 +25,9 @@ stf.Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     this.JETS_COUNT = jetsCount
 }
 
+/**
+ * Sets direction, speed and position back to origin.
+ */
 stf.Sprayer.prototype.resetStartPosition = function() {
     this.x = 100
     this.y = 50
@@ -26,6 +39,11 @@ stf.Sprayer.prototype.resetStartPosition = function() {
         this.jets[i] = true
 }
 
+/**
+ * @param i
+ * @param cellSize
+ * @returns {{x: number, y: number}} x,y coordinates of i-th jet
+ */
 stf.Sprayer.prototype.jetCoords = function(i, cellSize) {
     var x = this.x - Math.sin(this.angle) * this.BEHIND_CENTER
     var y = this.y + Math.cos(this.angle) * this.BEHIND_CENTER
@@ -39,24 +57,44 @@ stf.Sprayer.prototype.jetCoords = function(i, cellSize) {
     }
 }
 
+/**
+ * Toggles jet with given number on/off.
+ * @param jetNo
+ */
 stf.Sprayer.prototype.toggleJet = function(jetNo) {
     jetNo = this.jets.length - jetNo - 1 // left to right
     if (jetNo >= 0 && jetNo < this.jets.length)
         this.jets[jetNo] = !this.jets[jetNo]
 }
 
+/**
+ * Small but fast sprayer.
+ * @param image
+ * @constructor
+ */
 stf.RedSprayer = function(image) {
     stf.Sprayer.call(this, image, 1.5, -0.2, Math.PI / 2000, 4, 15)
 }
 
+/**
+ * Large but slow sprayer.
+ * @param image
+ * @constructor
+ */
 stf.GreenSprayer = function(image) {
     stf.Sprayer.call(this, image, 0.75, -0.2, Math.PI / 2000, 8, 30)
 }
 
+/**
+ * Average sprayer.
+ * @param image
+ * @constructor
+ */
 stf.BlueSprayer = function(image) {
     stf.Sprayer.call(this, image, 1, -0.2, Math.PI / 2000, 6, 15)
 }
 
+// setup inheritance
 stf.RedSprayer.prototype = Object.create(stf.Sprayer.prototype)
 stf.GreenSprayer.prototype = Object.create(stf.Sprayer.prototype)
 stf.BlueSprayer.prototype = Object.create(stf.Sprayer.prototype)

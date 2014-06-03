@@ -1,3 +1,9 @@
+/**
+ * Creates new Field from given FieldData. The data are cloned so they will not be modified.
+ * @param images
+ * @param data
+ * @constructor
+ */
 stf.Field = function(images, data) {
     this.images = images
 
@@ -12,6 +18,12 @@ stf.Field = function(images, data) {
     this.LIMIT_COVERAGE = data.limitCoverage
 }
 
+/**
+ * Clones and transforms FieldData into a Cell array.
+ * @param cellData
+ * @returns {Array}
+ * @private
+ */
 stf.Field.prototype._cloneCells = function(cellData) {
     var cells = new Array(cellData.length)
     for (var i = 0; i < cellData.length; i++) {
@@ -24,7 +36,12 @@ stf.Field.prototype._cloneCells = function(cellData) {
     return cells
 }
 
-
+/**
+ * Parses FieldData from input string.
+ * @param input
+ * @param name
+ * @constructor
+ */
 stf.FieldData = function(input, name) {
 
     this.name = name
@@ -56,6 +73,13 @@ stf.FieldData = function(input, name) {
     this.cells = cells
 }
 
+/**
+ * Increments number of resprays on a given cell only if long enough after last spray.
+ * (To avoid respraying of one cell after recent update)
+ * @param i
+ * @param j
+ * @returns {boolean}
+ */
 stf.Field.prototype.sprayCell = function(i, j) {
     var c = this.cells[i][j]
     var now = Date.now()
