@@ -65,27 +65,33 @@
 			</div>
 		</div>
 
-		<div id="play">
-			<canvas width=600 height=600></canvas>
+		<div id="play" class="playing">
             <div id="game_state">
                 Time left: <span id="time_left">0</span>s
                 Coverage: <span id="coverage">0</span>%
                 Goal: <span id="coverage_goal">0</span>%
             </div>
-            <form id="submit_best">
-                <input type="text" placeholder="your name" required="required">
-                <input type="submit" value="Submit">
-            </form>
-            <div>
+
+            <div id="best">
                 Best score:
                 <span id="best_time">0</span>
                 by
                 <span id="best_name">Mr. Nobody</span>
             </div>
+
+			<canvas width=600 height=600></canvas>
+
+            <form id="submit_best">
+                <h3>New record!</h3>
+                <input type="text" placeholder="enter your name" required="required">
+                <input type="submit" value="Submit">
+            </form>
 		</div>
 
 		<div id="howto">
-			how to
+			<h2>How to play</h2>
+
+            <h3>Loading custom fields</h3>
 		</div>
 
 		<article id="about">

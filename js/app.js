@@ -10,7 +10,7 @@ stf.App = function() {
     this._fieldsData = null
     this._tractorSound = new Audio('sound/tractor.mp3')
 
-    this._selectedField = null
+    this._selectedFieldData = null
     this._selectedSprayer = null
 
     this._game = null
@@ -142,19 +142,19 @@ stf.App.prototype.initGui = function() {
 stf.App.prototype._onHashChange = function() {
     if (location.hash == '#play')
         this._startGame()
-    else
+    else if (this._game != null)
         this._game.stop()
 }
 
 stf.App.prototype._selectField = function(field) {
-    this._selectedField = field
+    this._selectedFieldData = field
     var record = JSON.parse(localStorage.getItem(field.name))
     this._displayRecord(record)
 }
 
 stf.App.prototype._onBestSubmit = function(e) {
     var time = this._game.timeLeft
-    var fieldName = this._selectedField.name
+    var fieldName = this._selectedFieldData.name
     var playerName = e.target.elements[0].value
     var record = {name: playerName, time: time};
     localStorage.setItem(fieldName, JSON.stringify(record))
@@ -186,7 +186,7 @@ stf.App.prototype._onDrop = function(e) {
     var file = e.dataTransfer.files[0]
     var reader = new FileReader()
     reader.onload = function(event) {
-        this._selectedField = new stf.FieldData(event.target.result)
+        this._selectedFieldData = new stf.FieldData(event.target.result)
     }.bind(this)
     reader.readAsText(file)
 }
@@ -196,16 +196,28 @@ stf.App.prototype._initialized = function() {
 }
 
 stf.App.prototype._startGame = function() {
-    var field = new stf.Field(this._fieldImages, this._selectedField);
+
+    document.getElementById('play').className = 'playing'
+
+    var field = new stf.Field(this._fieldImages, this._selectedFieldData);
 
     this._selectedSprayer.resetStartPosition()
+
+    var record = JSON.parse(localStorage.getItem(field.name))
+    var recordTime = record == null ? 0 : record.time
 
     if (this._game)
         this._game.stop()
 
-    this._game = new stf.Game(field, this._selectedSprayer, this.onUpdate.bind(this), this._tractorSound)
+    this._game = new stf.Game(field, this._selectedSprayer, this.onUpdate.bind(this),
+        this._tractorSound, recordTime)
+    this._game.stopCallback = this.onGameStop
     this._game.init()
     this._game.play()
+}
+
+stf.App.prototype.onGameStop = function(result) {
+    document.getElementById('play').className = result
 }
 
 stf.App.prototype.onUpdate = function(state) {

@@ -20,14 +20,181 @@ a.active_tab {
     background-color: yellow
 }
 
-p:nth-child(even) {
-    background-color: rgb(147,175,62)
+input[name="sprayer"] + img:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
 }
 
-p:nth-child(odd) {
-    background-color: rgb(115,142,25)
+input[name="sprayer"]:checked + img {
+    -webkit-animation: animateSprayer 1s linear infinite;
+    -moz-animation: animateSprayer 1s linear infinite;
+    -o-animation: animateSprayer 1s linear infinite;
+    animation: animateSprayer 1s linear infinite;
+
+    -webkit-animation-direction: alternate;
+    -moz-animation-direction: alternate;
+    -o-animation-direction: alternate;
+    animation-direction: alternate;
 }
+
+@-webkit-keyframes animateSprayer {
+    0% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    100% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+@-moz-keyframes animateSprayer {
+    0% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    100% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+@-ms-keyframes animateSprayer {
+    0% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    100% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+@-o-keyframes animateSprayer {
+    0% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    100% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+@keyframes animateSprayer {
+    0% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    100% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+
+/*p:nth-child(even) {*/
+    /*background-color: rgb(147,175,62)*/
+/*}*/
+
+/*p:nth-child(odd) {*/
+    /*background-color: rgb(115,142,25)*/
+/*}*/
 
 .droppable {
     border: 5px dashed black
+}
+
+canvas {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.playing > * {
+    border: 10px solid royalblue;
+}
+
+.loose > * {
+    border: 2px solid crimson;
+}
+
+#submit_best {
+    display: none;
+}
+
+.record {
+    -webkit-perspective: 500px;
+    -moz-perspective: 500px;
+    -ms-perspective: 500px;
+    perspective: 500px;
+}
+
+.record #submit_best {
+    border: 2px solid lime;
+    display: block;
+}
+
+.record canvas {
+    height: 300px;
+    width: 300px;
+
+    -webkit-transform: scale(0.75) rotateY(-10deg);
+    -moz-transform: scale(0.75) rotateY(-10deg);
+    -ms-transform: scale(0.75) rotateY(-10deg);
+    -o-transform: scale(0.75) rotateY(-10deg);
+    transform: scale(0.75) rotateY(-10deg);
+
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -ms-transition: -ms-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+
+    border: 20px solid black;
+}
+
+.record #best {
+    display: none;
 }
