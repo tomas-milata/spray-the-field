@@ -147,10 +147,13 @@
                 newest HTML5, CSS3 and Javascript features provided by modern browsers.
             </p>
 			<h3>A0M33KAJ Documentation</h3>
+            <h4>Functionality</h4>
+            Controls are described in the <a href="#howto">How to...</a> section. If you would like to test the drag & drop uploading
+            of files, try e.g. <a href="maps/hard_time">this file</a>.
             <h4>Implementation</h4>
             <p>
             The application is a single-page webapp consisting of one HTML file, several JS files and some stylesheets.
-            The HTML file cointains only declarations of user interface and texts, oll logic (listeners etc.) done
+            The HTML file contains only declarations of user interface and texts, oll logic (listeners etc.) done
             in JS.
             </p>
 
@@ -159,6 +162,35 @@
                 the CSS :target attribute. Similar logic is used on other places - all elements are
                 present in the page at the beginning and are shown/hidden by assigning/removing classes,
                 only its text content is sometimes modified.
+            </p>
+
+            <h5>Structure of JS code</h5>
+            <p>
+                All objects are nested inside the stf namespace. The App class is an entry point and controller.
+                It handles lifecycle of the whole application, manages states of the DOM. All listeners and handlers
+                are added here. It servers as a delegator of calls between events and game 'business' objects so that
+                the business objects are decoupled from events, DOM, etc. Loading of resources is done via the asynchronous
+                Promises API, which currently runs in new Chrome and Firefox, but not Opera.
+            </p>
+
+            <p>
+                The Game objects represents current game state, holds other game objects (Sprayer, Field) which have their state as well.
+                Each instance of Game is created in each run (every time you click Play). In each iteration of the game loop,
+                game state is recalculated and scene is redrawn via a async function (requestAnimationFrame). Some game logic is
+                distributed into the Field and Sprayer objects.
+            </p>
+
+            <p>
+                An instance of the Field object is created in each game run from the FieldData object which represents
+            area which has/has not to be sprayed. The field is split into square cells sized 15px.
+            </p>
+
+            <p>
+                Instances of Sprayers are created only once at the begining and only its speed, direction and coordinates are reset in each run.
+            </p>
+
+            <p>
+                The Graphics object encapsulates manipulation with canvas via method for drawing field cells and sprayer.
             </p>
 
 
@@ -170,9 +202,9 @@
 
 			<h4>HTML and CSS Validity</h4>
 			<p>
-				<a href="http://validator.w3.org/check?uri=referer">Valid HTML 5</a>
+				<a href="http://validator.w3.org/check?uri=referer">Validate HTML 5</a>
 				&nbsp;&nbsp;
-				<a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS</a>
+				<a href="http://jigsaw.w3.org/css-validator/check/referer">Validate CSS</a>
 			</p>
 
 			<h3>Author</h3>
