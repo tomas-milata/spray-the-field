@@ -188,15 +188,17 @@ stf.App.prototype._onDrop = function(e) {
         option.selected = true
         var select = document.querySelector('select[name="field"]')
         select.appendChild(option)
-        select.set
-
     }.bind(this)
     reader.readAsText(file)
 }
 
 stf.App.prototype._initialized = function() {
     document.querySelector('body').classList.remove('loading')
-    location.hash = '#setup'
+
+    if (location.hash == "")
+        location.hash = '#setup'
+
+    this._onHashChange()
 }
 
 stf.App.prototype._startGame = function() {
