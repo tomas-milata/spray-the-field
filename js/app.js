@@ -179,7 +179,17 @@ stf.App.prototype._onDrop = function(e) {
     var file = e.dataTransfer.files[0]
     var reader = new FileReader()
     reader.onload = function(event) {
-        this._selectedFieldData = new stf.FieldData(event.target.result)
+        var name = file.name + Date.now()
+        this._selectedFieldData = new stf.FieldData(event.target.result, name)
+        this._fieldsData[name] = this._selectedFieldData
+        var option = document.createElement("option")
+        option.text = name
+        option.value = name
+        option.selected = true
+        var select = document.querySelector('select[name="field"]')
+        select.appendChild(option)
+        select.set
+
     }.bind(this)
     reader.readAsText(file)
 }
