@@ -12,7 +12,7 @@ body > nav a {
     color: rgb(80,60,30);
 }
 
-div#main > div:not(:target), section:not(:target) {
+div#main > div:not(:target), article:not(:target) {
     display: none
 }
 

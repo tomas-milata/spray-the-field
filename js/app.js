@@ -5,8 +5,11 @@ stf = {}
 
 stf.App = function() {
     this._sprayers = null
+
     this._fieldImages = null
     this._fieldsData = null
+    this._tractorSound = new Audio('sound/tractor.mp3')
+
     this._selectedField = null
     this._selectedSprayer = null
 
@@ -113,8 +116,7 @@ stf.App.prototype.initGui = function() {
         })
         droppable.addEventListener('drop', this._onDrop.bind(this))
 
-        document.querySelector('a[href="#play"]').addEventListener('click',
-            this._startGame.bind(this))
+        window.onhashchange = this._onHashChange.bind(this)
 
         var vehicleInputs = document.querySelectorAll('input[name="sprayer"]')
         for (var i = 0; i < vehicleInputs.length; i++)
@@ -135,6 +137,13 @@ stf.App.prototype.initGui = function() {
         this._coverageGoal = document.getElementById('coverage_goal')
 
     }.bind(this))
+}
+
+stf.App.prototype._onHashChange = function() {
+    if (location.hash == '#play')
+        this._startGame()
+    else
+        this._game.stop()
 }
 
 stf.App.prototype._selectField = function(field) {
@@ -192,9 +201,9 @@ stf.App.prototype._startGame = function() {
     this._selectedSprayer.resetStartPosition()
 
     if (this._game)
-        this._game.stopped = true
+        this._game.stop()
 
-    this._game = new stf.Game(field, this._selectedSprayer, this.onUpdate.bind(this))
+    this._game = new stf.Game(field, this._selectedSprayer, this.onUpdate.bind(this), this._tractorSound)
     this._game.init()
     this._game.play()
 }

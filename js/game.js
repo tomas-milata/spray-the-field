@@ -1,8 +1,9 @@
-stf.Game = function(field, sprayer, updateCallback) {
+stf.Game = function(field, sprayer, updateCallback, tractorSound) {
 	this._graphics = new stf.Graphics()
 
 	this._sprayer = this._graphics.sprayer = sprayer
 	this._graphics.field = this._field = field
+    this._tractorSound = tractorSound
 
 	this._leftPressed = false
 	this._rightPressed = false
@@ -14,7 +15,7 @@ stf.Game = function(field, sprayer, updateCallback) {
 
     this._updateCallback = updateCallback
 
-    this.stopped = false
+    this._stopped = false
 
     this.RESPRAY_PENALTY = 100
 }
@@ -27,8 +28,15 @@ stf.Game.prototype.init = function() {
 }
 
 stf.Game.prototype.play = function() {
+    this._tractorSound.loop = true
+    this._tractorSound.play()
 	this._lastUpdated = Date.now()
 	this._loop()
+}
+
+stf.Game.prototype.stop = function() {
+    this._tractorSound.pause()
+    this._stopped = true
 }
 
 stf.Game.prototype.onkeydown = function(event) {
@@ -74,7 +82,7 @@ stf.Game.prototype.onkeyup = function(event) {
 }
 
 stf.Game.prototype._finished = function() {
-    return this.stopped || this.timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
+    return this._stopped || this.timeLeft <= 0 || this._field.coverage >= this._field.LIMIT_COVERAGE
 }
 
 stf.Game.prototype._loop = function() {
