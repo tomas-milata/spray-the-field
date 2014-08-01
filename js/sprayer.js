@@ -18,9 +18,9 @@ stf.Sprayer = function(image, maxSpeed, minSpeed, maxAngleSpeed, jetsCount,
     this.MIN_SPEED = minSpeed
     this.MAX_ANGLE_SPEED = maxAngleSpeed
     this.ACCELERATION = 0.001
-    this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 100
+    this.ANGLE_ACCELERATION = this.MAX_ANGLE_SPEED / 200
     this.CONSTANT_DECELERATION = 0.0005
-    this.CONSTANT_ANGLE_DECELERATION = this.ANGLE_ACCELERATION
+    this.CONSTANT_ANGLE_DECELERATION = this.ANGLE_ACCELERATION * 10
     this.BEHIND_CENTER = behindCenter
     this.JETS_COUNT = jetsCount
 }
