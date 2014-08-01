@@ -130,6 +130,10 @@ canvas {
     perspective: 500px;
 }
 
+#field > :not(h3) {
+    float: left;
+}
+
 .finished canvas {
     height: 300px;
     width: 300px;
